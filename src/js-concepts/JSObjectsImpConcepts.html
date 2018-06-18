@@ -1,0 +1,58 @@
+<html>
+    <head>
+    <title>Important Concepts in JS</title>
+    </head>
+    <body>
+    <script>
+        //Hoisting
+        function hoistMe(){
+            console.log(tmp);
+            if (false){
+                var tmp = 3;
+                console.log(tmp);
+            }
+        }
+        hoistMe();
+        
+        //Internally the function is executed like so
+        /*function foo() {
+            var tmp;  // declaration is hoisted
+            console.log(tmp);
+            if (false) {
+                tmp = 3;  // assignment stays put
+            }
+        }*/
+        
+        //Inheritance in JS
+        function Plant(){
+            this.country = "Mexico";
+            this.isOrganic = true;
+        }
+        
+        Plant.prototype.showNameColor = function(){
+            console.log(this.name + " " + this.color)
+        }
+        
+        Plant.prototype.amIOrganic(){
+            if (this.isOrganic){
+                console.log("Yes I am organic!")
+            }
+        }
+        
+        function Fruit(fruitName, fruitColor){
+            this.name = fruitName;
+            this.color = fruitColor;
+        }
+        
+        //Setitng the Fruit prototype to Plant's constructor, so that it gets all of plant.prototype methods and properties
+        Fruit.prototype = new Plant();
+        
+        //Making a Fruit constructor
+        var banana = new Fruit("banana", "yellow");
+        
+        //Calling the Plant prototype method on banana using prototype inheritance
+        banana.showNameColor;
+        
+    </script>
+    </body>
+</html>

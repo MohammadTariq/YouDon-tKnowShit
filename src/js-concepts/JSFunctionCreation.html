@@ -1,0 +1,54 @@
+<html>
+    <head>
+    <title>Important Concepts in JS</title>
+    </head>
+    <body>
+    <script>
+        //Ways of creating functions in JS
+        //1. Function Declaration: Uses keywork 'function' and is based on the concept of Hoisting. Can be called even before declaration
+        
+        callMe("manavi")
+        function callMe(name){
+            console.log(name);
+        }
+        
+        //2. Function Expression: Assigned to a variable as an object. Can be name or anonymous.
+        //2.1 Named Function Expression:
+        var namedFunc = function callMe(name){
+            console.log(name)
+        }
+        namedFunc("Manavi") //Manavi
+        callMe("manavi") //Reference Error
+        typeof namedFunc //'function'
+        typeof namedFunc.name //'String'
+        
+        //2.2 Anonymous Function Expression:
+        var anonymousFunc = function(name){
+            console.log(name);
+        }
+        anonymousFunc("manavi") //manavi
+        typeof anonymousFunc //'function'
+        
+        //3. Shorthand method definition: can be used in a method declaration on object literals and ES6 classes. Easier to read and write these. Creates named functions
+        var collections = {
+            items: [],
+            add(...items){
+                this.items.push(...items);
+            },
+
+            get(index){
+                return this.items[index];
+            }
+            
+        };
+        
+        collections.items //[]
+        collections.add("1","2","3",true);
+        collections.items //["1", "2", "3", true]
+        collections.get(2) //"3"
+        
+        
+        //.....To be continued!
+    </script>
+    </body>
+</html>
