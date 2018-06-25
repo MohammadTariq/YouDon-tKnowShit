@@ -1,0 +1,59 @@
+<html>
+    <head></head>
+    <body>
+    <script>
+        
+        var merge = function(objects) {
+          var out = {};
+
+          for (var i = 0; i < objects.length; i++) {
+            for (var p in objects[i]) {
+              out[p] = objects[i][p];
+            }
+          }
+
+          return out;
+        }
+        
+        function flattenObj(obj, name, stem){
+            var newObj = {};
+            
+            if ((typeof stem !== 'undefined') && (stem !== '')){
+                var newStem = stem + '_' + name;
+            }
+            else {
+                var newStem = name;
+            }
+            
+            if (typeof obj !== 'object'){
+                newObj[newStem] = obj;
+                return newObj;
+            }
+            
+            //Recursion
+            for(var key in obj){
+                var prop = flattenObj(obj[key], key, newStem);
+                newObj = merge([newObj, prop]);
+            }
+            
+            return newObj;
+        }
+        
+        var myObject = {
+          name: 'fiiv',
+          birthYear: 1986,
+          favoriteColors: [ 'red', 'orange' ],
+          isWearing: {
+            shirt: {
+              color: 'white'
+            },
+            shorts: {
+              color: 'blue'
+            }
+          }
+        };
+
+        console.log(flattenObj(myObject));
+    </script>
+    </body>
+</html>

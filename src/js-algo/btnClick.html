@@ -1,0 +1,17 @@
+<html>
+<head>
+</head>
+    <body>
+    <script>
+        /*The key to logging 0,1,2,3,4 on each btn click is to capture the value of i at each pass through the for loop by passing it into a newly created function object. */
+        for (var i = 0; i < 5; i++) {
+          var btn = document.createElement('button');
+          btn.appendChild(document.createTextNode('Button ' + i));
+          (function(i){
+              btn.addEventListener('click', function(){ console.log(i); })
+          })(i);
+          document.body.appendChild(btn);
+        }
+    </script>
+    </body>
+</html>
