@@ -1,0 +1,97 @@
+<html>
+<head>
+    <script type="application/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+</head>
+    <body>
+        <ul id="root"></ul>
+        <style>
+            ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            ul ul {
+                margin: 0 0 0 30px;
+            }
+        </style>
+    <script>
+        var data = {
+            id: 0,
+            title: "root - not displayed",
+            children: [{
+                id: 1,
+                title: "Parent 1",
+                children: [{
+                    id: 11,
+                    title: "Child 1",
+                    children: [{
+                        id: 111,
+                        title: "Grand Child 2"
+                    }, {
+                        id: 112,
+                        title: "Grand Child 3"
+                    }]
+                }, {
+                    id: 12,
+                    title: "Child 2"
+                }]
+            }, {
+                id: 2,
+                title: "Parent 2",
+                children: [{
+                    id: 21,
+                    title: "Child 1"
+                }, {
+                    id: 22,
+                    title: "Child 2"
+                }]
+            }, {
+                id: 3,
+                title: "Parent 3",
+                children: [{
+                    id: 0,
+                    title: "Child 1"
+                }, {
+                    id: 0,
+                    title: "Child 2"
+                }]
+            }]
+        };
+
+        function addItem(parentUL, branch) {
+            for (var key in branch.children) {
+                var item = branch.children[key];
+                $item = $('<li>', {
+                    id: "item" + item.id
+                });
+                $item.append($('<input>', {
+                    type: "checkbox",
+                    id: "item" + item.id,
+                    name: "item" + item.id
+                }));
+                $item.append($('<label>', {
+                    for: "item" + item.id,
+                    text: item.title
+                }));
+                parentUL.append($item);
+                if (item.children) {
+                    var $ul = $('<ul>', {
+                        style: 'display: none'
+                    }).appendTo($item);
+                    addItem($ul, item);
+                }
+            }
+        }
+
+        $(function () {
+            addItem($('#root'), data);
+            $(':checkbox').change(function () {
+                $(this).closest('li').children('ul').slideToggle();
+            });
+            $('label').click(function(){
+                $(this).closest('li').find(':checkbox').trigger('click');
+            });
+        });
+        </script>
+    </body>
+</html>
