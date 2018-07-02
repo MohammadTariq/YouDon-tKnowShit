@@ -3,6 +3,8 @@
     <script type="application/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 </head>
     <body>
+        <p id="jsonData" style="display: none">{"id":0,"title": "root","children": [{"id":186,"title":"Family and Relationships","children":[]},{"id":638,"title":"Television"},{"id":132,"title":"Education","children":[]},{"id":430,"title":"Pop Culture"},{"id":150,"title":"Events and Attractions","children":[]},{"id":42,"title":"Books and Literature","children":[{"id":48,"title":"Fiction"},{"id":50,"title":"Travel Books"},{"id":43,"title":"Art and Photography Books"},{"id":44,"title":"Biographies"},{"id":46,"title":"Comics and Graphic Novels"},{"id":51,"title":"Young Adult Literature"},{"id":49,"title":"Poetry"},{"id":47,"title":"Cookbooks"}]},{"id":678,"title":"Video Gaming"},{"id":286,"title":"Medical Health","children":[]},{"id":462,"title":"Science"},{"id":420,"title":"Pets"},{"id":337,"title":"Music and Audio"},{"id":123,"title":"Careers","children":[{"id":124,"title":"Apprenticeships"},{"id":130,"title":"Remote Working"},{"id":125,"title":"Career Advice"},{"id":131,"title":"Vocational Training"},{"id":126,"title":"Career Planning"},{"id":127,"title":"Job Search","children":[{"id":128,"title":"Job Fairs"},{"id":129,"title":"Resume Writing and Advice"}]}]},{"id":223,"title":"Healthy Living","children":[]},{"id":377,"title":"News and Politics"},{"id":323,"title":"Movies"},{"id":651,"title":"Travel"},{"id":389,"title":"Personal Finance"},{"id":201,"title":"Fine Art","children":[]},{"id":439,"title":"Real Estate"},{"id":52,"title":"Business and Finance","children":[{"id":80,"title":"Economy","children":[{"id":84,"title":"Financial Reform"},{"id":89,"title":"Job Market"},{"id":82,"title":"Currencies"},{"id":81,"title":"Commodities"},{"id":83,"title":"Financial Crisis"},{"id":86,"title":"Gasoline Prices"},{"id":85,"title":"Financial Regulation"},{"id":87,"title":"Housing Market"},{"id":88,"title":"Interest Rates"}]},{"id":90,"title":"Industries","children":[{"id":92,"title":"Education industry"},{"id":98,"title":"Hospitality Industry"},{"id":99,"title":"Information Services Industry"},{"id":107,"title":"Metals Industry"},{"id":117,"title":"Automotive Industry"},{"id":110,"title":"Power and Energy Industry"},{"id":100,"title":"Legal Services Industry"},{"id":102,"title":"Agriculture"},{"id":104,"title":"Manufacturing Industry"},{"id":114,"title":"Retail Industry"},{"id":115,"title":"Technology Industry"},{"id":119,"title":"Biotech and Biomedical Industry"},{"id":93,"title":"Entertainment Industry"},{"id":108,"title":"Non-Profit Organizations"},{"id":109,"title":"Pharmaceutical Industry"},{"id":112,"title":"Real Estate Industry"},{"id":111,"title":"Publishing Industry"},{"id":105,"title":"Mechanical and Industrial Engineering Industry"},{"id":120,"title":"Civil Engineering Industry"},{"id":101,"title":"Logistics and Transportation Industry"},{"id":94,"title":"Environmental Services Industry"},{"id":121,"title":"Construction Industry"},{"id":103,"title":"Management Consulting Industry"},{"id":95,"title":"Financial Industry"},{"id":113,"title":"Apparel Industry"},{"id":106,"title":"Media Industry"},{"id":118,"title":"Aviation Industry"},{"id":91,"title":"Advertising Industry"},{"id":97,"title":"Healthcare Industry"},{"id":96,"title":"Food Industry"},{"id":122,"title":"Defense Industry"},{"id":116,"title":"Telecommunications Industry"}]},{"id":53,"title":"Business","children":[{"id":72,"title":"Business I.T."},{"id":59,"title":"Sales"},{"id":79,"title":"Business Utilities"},{"id":62,"title":"Business Administration"},{"id":55,"title":"Human Resources"},{"id":78,"title":"Green Solutions"},{"id":58,"title":"Marketing and Advertising"},{"id":77,"title":"Government Business"},{"id":73,"title":"Business Operations"},{"id":61,"title":"Startups"},{"id":56,"title":"Large Business"},{"id":57,"title":"Logistics"},{"id":60,"title":"Small and Medium-sized Business"},{"id":74,"title":"Consumer Issues","children":[{"id":75,"title":"Recalls"}]}]}]},{"id":481,"title":"Sports"},{"id":471,"title":"Shopping"}]}</p>
+
         <ul id="root"></ul>
         <style>
             ul {
@@ -14,50 +16,13 @@
                 margin: 0 0 0 30px;
             }
         </style>
-    <script>
-        var data = {
-            id: 0,
-            title: "root - not displayed",
-            children: [{
-                id: 1,
-                title: "Parent 1",
-                children: [{
-                    id: 11,
-                    title: "Child 1",
-                    children: [{
-                        id: 111,
-                        title: "Grand Child 2"
-                    }, {
-                        id: 112,
-                        title: "Grand Child 3"
-                    }]
-                }, {
-                    id: 12,
-                    title: "Child 2"
-                }]
-            }, {
-                id: 2,
-                title: "Parent 2",
-                children: [{
-                    id: 21,
-                    title: "Child 1"
-                }, {
-                    id: 22,
-                    title: "Child 2"
-                }]
-            }, {
-                id: 3,
-                title: "Parent 3",
-                children: [{
-                    id: 0,
-                    title: "Child 1"
-                }, {
-                    id: 0,
-                    title: "Child 2"
-                }]
-            }]
-        };
-
+        <script>
+    
+        var jsonData = document.getElementById('jsonData').innerHTML;
+        var root = document.getElementById('root');
+        var dataFinal = JSON.parse(jsonData);    
+        var idArr = [];
+            
         function addItem(parentUL, branch) {
             for (var key in branch.children) {
                 var item = branch.children[key];
@@ -65,9 +30,10 @@
                     id: "item" + item.id
                 });
                 $item.append($('<input>', {
-                    type: "checkbox",
+                    type: "radio",
                     id: "item" + item.id,
-                    name: "item" + item.id
+                    name: "singleSelect",
+                    class: "fields"
                 }));
                 $item.append($('<label>', {
                     for: "item" + item.id,
@@ -82,14 +48,19 @@
                 }
             }
         }
-
+            
         $(function () {
-            addItem($('#root'), data);
-            $(':checkbox').change(function () {
+            addItem($('#root'), dataFinal);
+            $(':radio').change(function () {
                 $(this).closest('li').children('ul').slideToggle();
             });
             $('label').click(function(){
-                $(this).closest('li').find(':checkbox').trigger('click');
+                $(this).closest('li').find(':radio').trigger('click');
+            });
+            $('.fields').click(function() {
+                var clickedItemID = $(this).attr('id');
+                idArr[0] = clickedItemID;
+                console.log(idArr)
             });
         });
         </script>
