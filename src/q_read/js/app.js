@@ -69,40 +69,51 @@ function processFeedJson(json) {
     }
 }
 
+var counter = 1;
+
 function populateFeed(key, inputData) {
     
     var feedCont = document.getElementById('feedTabs');
-    //var feebTabHtml = 'feedTabHtml' + key;
-    //feebTabHtml = '<div id="' + key + '" class="container tab-pane ">'
     
     var idDiv = document.getElementById(key);
-    console.log(idDiv);
+    var feedContDiv = document.createElement('div');
+    feedContDiv.id = "feedCont"+counter;
     
     //div for image
     var image = document.createElement('div');
-    image.id = "image";
+    image.id = "image"+key+'_'+counter;
+    image.classList.add('image'+key);
     var imgUrl = inputData.ImageUrl.XXXHDPI;
     var imageElem = document.createElement('img');
     imageElem.src = imgUrl;
     image.appendChild(imageElem);
-    idDiv.appendChild(image);
+    feedContDiv.appendChild(image);
     
     //div for title
     var title = document.createElement('div');
     title.id = "title";
     title.innerHTML = inputData["Title"];
-    idDiv.appendChild(title);
+    feedContDiv.appendChild(title);
     
     //div for summary
     var summary = document.createElement('div');
-    summary.id = "summary";
+    summary.id = "summary"+key+'_'+counter;
+    summary.classList.add('smalldesc','summary','hide');
     var p = document.createElement('p');
     p.innerHTML = inputData["Summary"] + '...' + '<a style="font-size: 21px; color: hsl(45, 95%, 63%); text-decoration: underline;" href="' + inputData["Link"] + '" target="_blank"></br>Read More</a>';
     summary.appendChild(p)
-    idDiv.appendChild(summary);
+    feedContDiv.appendChild(summary);
     
-    //feedCont.appendChild(idDiv);
+    idDiv.appendChild(feedContDiv);
+    $('#image'+key+'_'+counter).on('click', function(e){
+        console.log(this.parentElement.lastElementChild);
+        this.parentElement.lastElementChild.classList.toggle('show');
+        this.parentElement.lastElementChild.classList.toggle('hide');
+    })
+                                           
+    counter += 1;;
 }
+
 
 /*
 function loadJSON(file, callback) {
